@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>я ебу че тут писать</title>
+    <title>лучший сайт</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -315,29 +315,42 @@
                 </div>
             `).join('');
         }
+function togglePlay(id, src) {
+    const playBtn = document.getElementById(`play-btn-${id}`);
+    
+    if (!src || src === '#') {
+        alert('Этот трек еще не загружен на хостинг.');
+        return;
+    }
 
-        const modal = document.getElementById("universal-modal");
-        const modalBody = document.getElementById("modal-body");
-        
-        function setupModalLogic() {
-            document.getElementById("modal-close-btn").addEventListener("click", closeModal);
-            modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-            document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("active")) closeModal(); });
+    // Если кликнули на тот же трек, который играет сейчас
+    if (currentPlayingId === id) {
+        if (currentAudio.paused) {
+            currentAudio.play();
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+        } else {
+            currentAudio.pause();
+            playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
         }
+        return;
+    }
 
-        function openLyrics(id) {
-            const t = tracks.find(x => x.id === id);
-            if (!t) return;
-            modalBody.innerHTML = `<h3 style="font-size: 1.8rem; margin-bottom: 10px; color: var(--accent-blue);">${t.title}</h3><p style="color: var(--text-muted); margin-bottom: 25px;">${t.artist}</p><div class="lyrics-text">${t.lyrics}</div>`;
-            modal.classList.add("active");
-        }
+    // Если играет ДРУГОЙ трек, сбрасываем старую кнопку
+    if (currentPlayingId !== null) {
+        const oldPlayBtn = document.getElementById(`play-btn-${currentPlayingId}`);
+        if (oldPlayBtn) oldPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+    }
 
-        function openMeme(src, title) {
-            modalBody.innerHTML = `<img src="${src}" class="modal-image" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500'"><h4 style="margin-top: 15px; font-size: 1.2rem; font-weight: 600;">${title}</h4>`;
-            modal.classList.add("active");
-        }
-
-        function closeModal() { modal.classList.remove("active"); }
-    </script>
-</body>
-</html>
+    // ХИТРЫЙ ХАК: Кодируем пробелы/кириллицу и добавляем обход кэша (?v=время)
+    // Чтобы GitHub отдавал файл моментально с первой попытки
+    const cleanSrc = encodeURIComponent(src.trim()).replace(/%2F/g, '/');
+    currentAudio.src = cleanSrc + '?v=' + new Date().getTime();
+    
+    currentAudio.play().then(() => {
+        currentPlayingId = id;
+        playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+    }).catch(err => {
+        console.error("Ошибка воспроизведения файла:", err);
+        alert("Не удалось воспроизвести файл. Проверь правильность имени mp3 на GitHub.");
+    });
+}
