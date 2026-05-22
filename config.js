@@ -106,7 +106,7 @@ const tracks = [
         title: "МазеLOVE",
         artist: "Lida, dk",
         cover: "track6.jpg",
-        link: "мазеLOVE.mp3"
+        link: "мазеLOVE Lida, DK.mp3"
     }
 ];
 
