@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>всякая фигня</title>
+    <title>я ебу че тут писать</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -147,8 +147,8 @@
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Я не придумал что тут написать</h1>
-            <p>хаос</p>
+            <h1>хз не придумал но пиздато сделал</h1>
+            <p>Мой смысл жизни члены члены, отныне члены члены</p>
             <div class="hero-buttons">
                 <a href="#music" class="btn-glow"><i class="fa-solid fa-music"></i> Музыка</a>
                 <a href="#memes" class="btn-glow"><i class="fa-solid fa-face-laugh-squint"></i> Мемы</a>
@@ -188,7 +188,7 @@
     </main>
 
     <footer style="text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--glass-border);">
-        <p>© 2026 Мемный Уголок.</p>
+        <p>мой смысл жизни пенис пенис</p>
     </footer>
 
     <div class="modal" id="universal-modal">
@@ -200,6 +200,10 @@
 
     <script src="config.js"></script>
     <script>
+        // Создаем глобальный плеер для сайта
+        let currentAudio = new Audio();
+        let currentPlayingId = null;
+
         document.addEventListener("DOMContentLoaded", () => {
             if(typeof tracks !== 'undefined') renderMusic();
             if(typeof clips !== 'undefined') renderClips();
@@ -207,17 +211,24 @@
             if(typeof socials !== 'undefined') renderSocials();
             if(typeof memes !== 'undefined') renderMemes();
             setupModalLogic();
+
+            // Следим за окончанием трека
+            currentAudio.addEventListener('ended', () => {
+                const playBtn = document.getElementById(`play-btn-${currentPlayingId}`);
+                if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+                currentPlayingId = null;
+            });
         });
 
         function renderMusic() {
             document.getElementById("music-container").innerHTML = tracks.map(t => `
                 <div class="track-card glass-card">
-                    <img src="${t.cover}" alt="${t.title}" class="track-cover">
+                    <img src="${t.cover}" alt="${t.title}" class="track-cover" onerror="this.src='https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=100'">
                     <div class="track-info">
                         <div class="track-title">${t.title}</div>
                         <div class="track-artist">${t.artist}</div>
                         <div class="track-actions">
-                            <a href="${t.link}" class="btn-glow">Play</a>
+                            <button id="play-btn-${t.id}" class="btn-glow" onclick="togglePlay(${t.id}, '${t.link}')"><i class="fa-solid fa-play"></i> Play</button>
                             ${t.lyrics ? `<button class="btn-glow btn-secondary" onclick="openLyrics(${t.id})">Текст</button>` : ''}
                         </div>
                     </div>
@@ -225,11 +236,55 @@
             `).join('');
         }
 
+        function togglePlay(id, src) {
+            const playBtn = document.getElementById(`play-btn-${id}`);
+            
+            // Если трек забит заглушкой или пустой
+            if (!src || src === '#') {
+                alert('Этот трек еще не загружен на хостинг.');
+                return;
+            }
+
+            // Если кликнули на тот же трек, который играет сейчас
+            if (currentPlayingId === id) {
+                if (currentAudio.paused) {
+                    currentAudio.play();
+                    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+                } else {
+                    currentAudio.pause();
+                    playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+                }
+                return;
+            }
+
+            // Если играет ДРУГОЙ трек, сначала сбрасываем старую кнопку
+            if (currentPlayingId !== null) {
+                const oldPlayBtn = document.getElementById(`play-btn-${currentPlayingId}`);
+                if (oldPlayBtn) oldPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+            }
+
+            // Запускаем новый трек
+            currentAudio.src = src;
+            currentAudio.play().then(() => {
+                currentPlayingId = id;
+                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+            }).catch(err => {
+                console.error("Ошибка воспроизведения файла:", err);
+                alert("Не удалось воспроизвести файл. Проверь правильность имени mp3 на GitHub.");
+            });
+        }
+
         function renderClips() {
             document.getElementById("clips-container").innerHTML = clips.map(c => `
                 <a href="${c.link}" target="_blank" class="clip-card glass-card">
-                    <div class="clip-thumbnail-wrapper"><i class="fa-solid fa-play"></i><img src="${c.thumb}" class="clip-thumbnail"></div>
-                    <div class="clip-meta"><div class="clip-name">${c.title}</div><div class="clip-platform"><i class="${c.icon}"></i> ${c.platform}</div></div>
+                    <div class="clip-thumbnail-wrapper">
+                        <i class="fa-solid fa-play"></i>
+                        <img src="${c.thumb}" class="clip-thumbnail" onerror="this.style.display='none';">
+                    </div>
+                    <div class="clip-meta">
+                        <div class="clip-name">${c.title}</div>
+                        <div class="clip-platform"><i class="${c.icon}"></i> ${c.platform}</div>
+                    </div>
                 </a>
             `).join('');
         }
@@ -255,7 +310,7 @@
         function renderMemes() {
             document.getElementById("memes-container").innerHTML = memes.map(m => `
                 <div class="meme-item glass-card" onclick="openMeme('${m.src}', '${m.title}')">
-                    <div class="meme-img-box"><img src="${m.src}" class="meme-img"></div>
+                    <div class="meme-img-box"><img src="${m.src}" class="meme-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300'"></div>
                     <div class="meme-overlay"><div class="meme-title">${m.title}</div></div>
                 </div>
             `).join('');
@@ -278,7 +333,7 @@
         }
 
         function openMeme(src, title) {
-            modalBody.innerHTML = `<img src="${src}" class="modal-image"><h4 style="margin-top: 15px; font-size: 1.2rem; font-weight: 600;">${title}</h4>`;
+            modalBody.innerHTML = `<img src="${src}" class="modal-image" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500'"><h4 style="margin-top: 15px; font-size: 1.2rem; font-weight: 600;">${title}</h4>`;
             modal.classList.add("active");
         }
 
