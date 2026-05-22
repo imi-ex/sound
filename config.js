@@ -8,28 +8,28 @@ const tracks = [
         title: "Бегать и падать",
         artist: "Куок",
         cover: "track1.jpg", 
-        link: "Бегать и падать Куок.mp3" // Исправлено под реальное имя файла на GitHub
+        link: "Бегать и падать.mp3" // Исправлено под реальное имя файла на GitHub
     },
     {
         id: 2,
         title: "Уходи",
         artist: "ФРИК ПАТИ, Mzlff",
         cover: "track2.jpg",
-        link: "Уходи ФРИК ПАТИ, Mzlff.mp3"
+        link: "Уходи.mp3"
     },
     {
         id: 3,
         title: "абсолютный ноль",
         artist: "Mzlff",
         cover: "track3.jpg",
-        link: "абсолютный ноль Mzlff.mp3"
+        link: "абсолютный ноль.mp3"
     },
     {
         id: 4,
         title: "Мечты рядовой фигуры",
         artist: "Mzlff",
         cover: "track4.jpg",
-        link: "mzlff_-_мечты_рядовой_фигуры_KLICKAUD.mp3",
+        link: "Мечты рядовой фигуры.mp3",
         lyrics: `Белыми и чёрными форматами мир стоит на доске,
 как будто с небес видят шахматы.
 Как по дороге, по двум полосам пробежит радуга,
@@ -99,14 +99,14 @@ const tracks = [
         title: "Крематорий для бабочек",
         artist: "MellSher",
         cover: "track5.jpg",
-        link: "MellSher - Крематорий для бабочек.mp3"
+        link: "Крематорий для бабочек.mp3"
     },
     {
         id: 6,
         title: "МазеLOVE",
         artist: "Lida, dk",
         cover: "track6.jpg",
-        link: "мазеLOVE Lida, DK.mp3"
+        link: "мазеLOVE.mp3"
     }
 ];
 
