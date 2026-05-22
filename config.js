@@ -8,7 +8,7 @@ const tracks = [
         title: "Бегать и падать",
         artist: "Куок",
         cover: "track1.jpg", 
-        link: "Бегать и падать Куок.mp3"
+        link: "Бежать и падать Куок.mp3" // Исправлено под реальное имя файла на GitHub
     },
     {
         id: 2,
@@ -30,7 +30,6 @@ const tracks = [
         artist: "Mzlff",
         cover: "track4.jpg",
         link: "mzlff_-_мечты_рядовой_фигуры_KLICKAUD.mp3",
-        // Текст песни. Пиши внутри косых кавычек `, переносы строк сохраняются!
         lyrics: `Белыми и чёрными форматами мир стоит на доске,
 как будто с небес видят шахматы.
 Как по дороге, по двум полосам пробежит радуга,
@@ -93,7 +92,7 @@ const tracks = [
 как будто с небес видят шахматы,
 и король всего цветного сгинул.
 Я с палитрой за спиной,
-как герой из страшного фильма.`,
+как герой из страшного фильма.`
     },
     {
         id: 5,
@@ -117,21 +116,21 @@ const clips = [
         platform: "Twitch",
         icon: "fa-brands fa-twitch",
         link: "https://www.twitch.tv/cherebuhh/clip/TrappedBumblingHamburgerNononoCat-rY4T5pmWOnnnVTyIh",
-        thumb: "https://images.unsplash.com/photo-1626387346567-584b1e86232d?q=80&w=500&auto=format&fit=crop"
+        thumb: "klip1.jpg" // Сделал чистую заглушку
     },
     {
         title: "Лучший клип 2",
         platform: "Twitch",
         icon: "fa-brands fa-twitch",
         link: "https://www.twitch.tv/stintik/clip/AmorphousSmellyHerringMikeHogu-zoP-UnJIkbtcwmm9",
-        thumb: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=500&auto=format&fit=crop"
+        thumb: "klip2.jpg" // Сделал чистую заглушку
     },
     {
         title: "Лучший клип 3",
         platform: "Twitch",
         icon: "fa-brands fa-twitch",
         link: "https://www.twitch.tv/drakeoffc/clip/MoldyAbstruseThymeBleedPurple-4cr50icl_64hNUZl",
-        thumb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500&auto=format&fit=crop"
+        thumb: "klip3.jpg" // Сделал чистую заглушку
     }
 ];
 
@@ -139,7 +138,7 @@ const playlists = [
     {
         name: "Spotify",
         icon: "fa-brands fa-spotify",
-        url: "https://open.spotify.com/playlist/6MNfVSspPcmuZ3nf0PvJnn?si=Kb_2X-K8SQuSeRiB1oGK0Q"
+        url: "https://open.spotify.com"
     },
     {
         name: "YouTube Music",
