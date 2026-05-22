@@ -8,7 +8,7 @@ const tracks = [
         title: "Бегать и падать",
         artist: "Куок",
         cover: "track1.jpg", 
-        link: "Бежать и падать Куок.mp3" // Исправлено под реальное имя файла на GitHub
+        link: "Бегать и падать Куок.mp3" // Исправлено под реальное имя файла на GitHub
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const tracks = [
     },
     {
         id: 3,
-        title: "Абсолютный ноль",
+        title: "абсолютный ноль",
         artist: "Mzlff",
         cover: "track3.jpg",
         link: "абсолютный ноль Mzlff.mp3"
