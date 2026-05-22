@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой уголок музыки и мемов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #09090e 0%, #110f24 50%, #07050f 100%);
+            --primary-glow: rgba(138, 43, 226, 0.6);
+            --secondary-glow: rgba(0, 191, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-hover-bg: rgba(255, 255, 255, 0.08);
+            --glass-hover-border: rgba(138, 43, 226, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --accent-violet: #9d4edf;
+            --accent-blue: #00bfff;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .blob {
+            position: fixed; width: 500px; height: 500px; border-radius: 50%;
+            pointer-events: none; z-index: -1; filter: blur(120px); opacity: 0.35;
+            animation: floatBlobs 20s infinite alternate;
+        }
+        .blob-1 { background: var(--primary-glow); top: -10%; left: -10%; }
+        .blob-2 { background: var(--secondary-glow); bottom: -10%; right: -10%; animation-delay: -10s; }
+        @keyframes floatBlobs { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 50px) scale(1.15); } }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 100px 0 60px 0; }
+        .section-title {
+            font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 50px;
+            background: linear-gradient(45deg, var(--text-main), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: 20px; transition: var(--transition-smooth);
+        }
+        .glass-card:hover {
+            background: var(--glass-hover-bg); border-color: var(--glass-hover-border);
+            transform: translateY(-5px); box-shadow: 0 15px 35px rgba(138, 43, 226, 0.15), 0 5px 15px rgba(0, 191, 255, 0.1);
+        }
+
+        .btn-glow {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px 28px; background: linear-gradient(135deg, #7b2cbf 0%, #3a0ca3 100%);
+            border: none; border-radius: 50px; color: white; font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.4); position: relative; overflow: hidden;
+        }
+        .btn-glow::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s;
+        }
+        .btn-glow:hover::before { left: 100%; }
+        .btn-glow:hover { transform: scale(1.03); box-shadow: 0 8px 25px rgba(138, 43, 226, 0.7), 0 0 15px var(--accent-blue); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.4); }
+
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        .hero-content { max-width: 800px; padding: 40px; z-index: 2; }
+        .hero h1 {
+            font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-violet) 70%, var(--accent-blue) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: titleLoad 1s ease-out;
+        }
+        .hero p { font-size: 1.4rem; color: var(--text-muted); margin-bottom: 40px; font-weight: 300; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        @keyframes titleLoad { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        .music-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        .track-card { display: flex; align-items: center; padding: 16px; gap: 20px; }
+        .track-cover { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .track-info { flex-grow: 1; overflow: hidden; }
+        .track-title { font-size: 1.15rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .track-artist { color: var(--text-muted); font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; }
+        .track-actions { display: flex; gap: 8px; }
+        .track-actions .btn-glow { padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
+
+        .clips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
+        .clip-card { overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+        .clip-thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: rgba(0,0,0,0.2); border-radius: 19px 19px 0 0; overflow: hidden; }
+        .clip-thumbnail-wrapper i { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); font-size: 3rem; color: #fff; text-shadow: 0 0 15px rgba(138,43,226,0.6); transition: var(--transition-smooth); z-index: 2; }
+        .clip-card:hover .clip-thumbnail-wrapper i { transform: translate(-50%, -50%) scale(1.2); color: var(--accent-blue); }
+        .clip-thumbnail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: var(--transition-smooth); }
+        .clip-card:hover .clip-thumbnail { opacity: 0.9; transform: scale(1.05); }
+        .clip-meta { padding: 20px; }
+        .clip-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
+        .clip-platform { font-size: 0.85rem; color: #a970ff; display: flex; align-items: center; gap: 6px; }
+
+        .links-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .playlists-box, .socials-box { display: flex; flex-direction: column; gap: 15px; }
+        .link-item { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; text-decoration: none; color: inherit; }
+        .link-left { display: flex; align-items: center; gap: 15px; font-size: 1.2rem; font-weight: 600; }
+        .link-left i { font-size: 1.5rem; width: 30px; text-align: center; }
+        .fa-spotify { color: #1DB954; } .fa-youtube { color: #FF0000; } .fa-reddit-alien { color: #FF4500; } .fa-telegram { color: #26A5E4; } .fa-tiktok { color: #00f2fe; }
+
+        .meme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .meme-item { overflow: hidden; cursor: pointer; position: relative; }
+        .meme-img-box { width: 100%; padding-top: 100%; position: relative; overflow: hidden; border-radius: 19px; }
+        .meme-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
+        .meme-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px; opacity: 0; transition: var(--transition-smooth); }
+        .meme-item:hover .meme-img { transform: scale(1.08); }
+        .meme-item:hover .meme-overlay { opacity: 1; }
+        .meme-title { font-weight: 600; font-size: 1rem; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 4, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px; }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-content { max-width: 600px; width: 100%; padding: 40px; position: relative; max-height: 80vh; overflow-y: auto; transform: scale(0.9); transition: var(--transition-smooth); text-align: center; }
+        .modal.active .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; opacity: 0.6; transition: 0.2s; }
+        .modal-close:hover { opacity: 1; color: var(--accent-blue); }
+        .lyrics-text { white-space: pre-line; font-size: 1.1rem; color: #e0e0e0; line-height: 1.8; }
+        .modal-image { max-width: 100%; max-height: 70vh; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        @media (max-width: 992px) { .links-layout { grid-template-columns: 1fr; gap: 30px; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.8rem; } .hero p { font-size: 1.1rem; } section { padding: 60px 0 40px 0; } .section-title { font-size: 2rem; margin-bottom: 35px; } .music-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Мой уголок музыки и мемов</h1>
+            <p>Музыка, мемы и случайный интернет-хаос</p>
+            <div class="hero-buttons">
+                <a href="#music" class="btn-glow"><i class="fa-solid fa-music"></i> Музыка</a>
+                <a href="#memes" class="btn-glow"><i class="fa-solid fa-face-laugh-squint"></i> Мемы</a>
+                <a href="#socials" class="btn-glow btn-secondary"><i class="fa-solid fa-share-nodes"></i> Соцсети</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="music">
+            <h2 class="section-title">Любимая музыка</h2>
+            <div class="music-grid" id="music-container"></div>
+        </section>
+
+        <section id="clips">
+            <h2 class="section-title">Лучшие клипы</h2>
+            <div class="clips-grid" id="clips-container"></div>
+        </section>
+
+        <section id="socials">
+            <div class="links-layout">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">Плейлисты</h2>
+                    <div class="playlists-box" id="playlists-container"></div>
+                </div>
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">Контакты</h2>
+                    <div class="socials-box" id="socials-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="memes">
+            <h2 class="section-title">Избранные мемы</h2>
+            <div class="meme-grid" id="memes-container"></div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--glass-border);">
+        <p>© 2026 Музыкально-Мемный Уголок.</p>
+    </footer>
+
+    <div class="modal" id="universal-modal">
+        <div class="modal-content glass-card">
+            <button class="modal-close" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if(typeof tracks !== 'undefined') renderMusic();
+            if(typeof clips !== 'undefined') renderClips();
+            if(typeof playlists !== 'undefined') renderPlaylists();
+            if(typeof socials !== 'undefined') renderSocials();
+            if(typeof memes !== 'undefined') renderMemes();
+            setupModalLogic();
+        });
+
+        function renderMusic() {
+            document.getElementById("music-container").innerHTML = tracks.map(t => `
+                <div class="track-card glass-card">
+                    <img src="${t.cover}" alt="${t.title}" class="track-cover">
+                    <div class="track-info">
+                        <div class="track-title">${t.title}</div>
+                        <div class="track-artist">${t.artist}</div>
+                        <div class="track-actions">
+                            <a href="${t.link}" class="btn-glow">Play</a>
+                            ${t.lyrics ? `<button class="btn-glow btn-secondary" onclick="openLyrics(${t.id})">Текст</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderClips() {
+            document.getElementById("clips-container").innerHTML = clips.map(c => `
+                <a href="${c.link}" target="_blank" class="clip-card glass-card">
+                    <div class="clip-thumbnail-wrapper"><i class="fa-solid fa-play"></i><img src="${c.thumb}" class="clip-thumbnail"></div>
+                    <div class="clip-meta"><div class="clip-name">${c.title}</div><div class="clip-platform"><i class="${c.icon}"></i> ${c.platform}</div></div>
+                </a>
+            `).join('');
+        }
+
+        function renderPlaylists() {
+            document.getElementById("playlists-container").innerHTML = playlists.map(p => `
+                <a href="${p.url}" target="_blank" class="link-item glass-card">
+                    <div class="link-left"><i class="${p.icon}"></i><span>${p.name}</span></div>
+                    <span class="btn-glow" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 8px;">Открыть</span>
+                </a>
+            `).join('');
+        }
+
+        function renderSocials() {
+            document.getElementById("socials-container").innerHTML = socials.map(s => `
+                <a href="${s.url}" target="_blank" class="link-item glass-card">
+                    <div class="link-left"><i class="${s.icon}"></i><span>${s.name}</span></div>
+                    <span class="btn-glow btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 8px;"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                </a>
+            `).join('');
+        }
+
+        function renderMemes() {
+            document.getElementById("memes-container").innerHTML = memes.map(m => `
+                <div class="meme-item glass-card" onclick="openMeme('${m.src}', '${m.title}')">
+                    <div class="meme-img-box"><img src="${m.src}" class="meme-img"></div>
+                    <div class="meme-overlay"><div class="meme-title">${m.title}</div></div>
+                </div>
+            `).join('');
+        }
+
+        const modal = document.getElementById("universal-modal");
+        const modalBody = document.getElementById("modal-body");
+        
+        function setupModalLogic() {
+            document.getElementById("modal-close-btn").addEventListener("click", closeModal);
+            modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+            document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("active")) closeModal(); });
+        }
+
+        function openLyrics(id) {
+            const t = tracks.find(x => x.id === id);
+            if (!t) return;
+            modalBody.innerHTML = `<h3 style="font-size: 1.8rem; margin-bottom: 10px; color: var(--accent-blue);">${t.title}</h3><p style="color: var(--text-muted); margin-bottom: 25px;">${t.artist}</p><div class="lyrics-text">${t.lyrics}</div>`;
+            modal.classList.add("active");
+        }
+
+        function openMeme(src, title) {
+            modalBody.innerHTML = `<img src="${src}" class="modal-image"><h4 style="margin-top: 15px; font-size: 1.2rem; font-weight: 600;">${title}</h4>`;
+            modal.classList.add("active");
+        }
+
+        function closeModal() { modal.classList.remove("active"); }
+    </script>
+</body>
+</html>
