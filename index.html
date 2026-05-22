@@ -1,346 +1,135 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лучший сайт</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #050508 0%, #0b0914 50%, #030207 100%);
-            --primary-glow: rgba(157, 78, 223, 0.5);
-            --secondary-glow: rgba(0, 191, 255, 0.35);
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-hover-bg: rgba(255, 255, 255, 0.06);
-            --glass-hover-border: rgba(157, 78, 223, 0.5);
-            --text-main: #ffffff;
-            --text-muted: #9e9eb4;
-            --accent-violet: #a04ef6;
-            --accent-blue: #00bfff;
-            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-        .blob {
-            position: fixed; width: 600px; height: 600px; border-radius: 50%;
-            pointer-events: none; z-index: -1; filter: blur(140px); opacity: 0.25;
-            animation: floatBlobs 25s infinite alternate;
-        }
-        .blob-1 { background: var(--primary-glow); top: -15%; left: -15%; }
-        .blob-2 { background: var(--secondary-glow); bottom: -15%; right: -15%; animation-delay: -12s; }
-        @keyframes floatBlobs { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 40px) scale(1.1); } }
+<title>Хз все еще не придумал</title>
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        section { padding: 80px 0 40px 0; }
-        .section-title {
-            font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 45px;
-            background: linear-gradient(45deg, var(--text-main), var(--accent-blue));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;
-        }
+<link rel="stylesheet" href="style.css">
 
-        .glass-card {
-            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border); border-radius: 16px; transition: var(--transition-smooth);
-        }
-        .glass-card:hover {
-            background: var(--glass-hover-bg); border-color: var(--glass-hover-border);
-            transform: translateY(-4px); box-shadow: 0 12px 30px rgba(160, 78, 246, 0.15);
-        }
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .btn-glow {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 12px 24px; background: linear-gradient(135deg, #8a2be2 0%, #4a00e0 100%);
-            border: none; border-radius: 12px; color: white; font-weight: 600;
-            text-decoration: none; cursor: pointer; transition: var(--transition-smooth);
-            box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3); position: relative; overflow: hidden;
-        }
-        .btn-glow::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transition: 0.4s;
-        }
-        .btn-glow:hover::before { left: 100%; }
-        .btn-glow:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(138, 43, 226, 0.5); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border); box-shadow: none; }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-blue); box-shadow: 0 0 15px rgba(0, 191, 255, 0.2); }
-
-        .hero { min-height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
-        .hero-content { max-width: 800px; padding: 20px; z-index: 2; }
-        .hero h1 {
-            font-size: 3.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 40%, var(--accent-violet) 75%, var(--accent-blue) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: titleLoad 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 35px; font-weight: 300; }
-        .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        @keyframes titleLoad { from { opacity: 0; transform: translateY(15px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
-
-        .music-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-        .track-card { display: flex; align-items: center; padding: 14px; gap: 16px; }
-        .track-cover { width: 75px; height: 75px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
-        .track-info { flex-grow: 1; overflow: hidden; }
-        .track-title { font-size: 1.1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-        .track-artist { color: var(--text-muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 12px; }
-        .track-actions { display: flex; gap: 8px; }
-        .track-actions .btn-glow { padding: 6px 14px; font-size: 0.8rem; border-radius: 8px; }
-
-        .clips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        .clip-card { overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .clip-thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: rgba(0,0,0,0.3); border-radius: 15px 15px 0 0; overflow: hidden; }
-        .clip-thumbnail-wrapper i { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px rgba(138,43,226,0.6); transition: var(--transition-smooth); z-index: 2; }
-        .clip-card:hover .clip-thumbnail-wrapper i { transform: translate(-50%, -50%) scale(1.15); color: var(--accent-blue); }
-        .clip-thumbnail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: var(--transition-smooth); }
-        .clip-card:hover .clip-thumbnail { opacity: 0.85; transform: scale(1.03); }
-        .clip-meta { padding: 16px; }
-        .clip-name { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
-        .clip-platform { font-size: 0.8rem; color: #a970ff; display: flex; align-items: center; gap: 6px; }
-
-        .links-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .playlists-box, .socials-box { display: flex; flex-direction: column; gap: 12px; }
-        .link-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; }
-        .link-left { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; font-weight: 600; }
-        .link-left i { font-size: 1.4rem; width: 26px; text-align: center; }
-        .fa-spotify { color: #1DB954; } .fa-youtube { color: #FF0000; } .fa-reddit-alien { color: #FF4500; } .fa-telegram { color: #26A5E4; } .fa-tiktok { color: #00f2fe; }
-
-        .meme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-        .meme-item { overflow: hidden; cursor: pointer; position: relative; }
-        .meme-img-box { width: 100%; padding-top: 100%; position: relative; overflow: hidden; border-radius: 15px; }
-        .meme-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
-        .meme-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 15px; opacity: 0; transition: var(--transition-smooth); }
-        .meme-item:hover .meme-img { transform: scale(1.05); }
-        .meme-item:hover .meme-overlay { opacity: 1; }
-        .meme-title { font-weight: 600; font-size: 0.95rem; }
-
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 2, 6, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
-        .modal.active { opacity: 1; pointer-events: auto; }
-        .modal-content { max-width: 550px; width: 100%; padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; transform: scale(0.95); transition: var(--transition-smooth); text-align: center; }
-        .modal.active .modal-content { transform: scale(1); }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer; opacity: 0.5; transition: 0.2s; }
-        .modal-close:hover { opacity: 1; color: var(--accent-blue); }
-        .lyrics-text { white-space: pre-line; font-size: 1rem; color: #e2e2e8; line-height: 1.7; text-align: center; }
-        .modal-image { max-width: 100%; max-height: 70vh; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.6); }
-        
-        .modal-content::-webkit-scrollbar { width: 4px; }
-        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
-
-        @media (max-width: 992px) { .links-layout { grid-template-columns: 1fr; gap: 20px; } }
-        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .hero p { font-size: 1.1rem; } section { padding: 50px 0 30px 0; } .section-title { font-size: 1.8rem; margin-bottom: 30px; } .music-grid { grid-template-columns: 1fr; } }
-    </style>
 </head>
+
 <body>
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+<div class="bg"></div>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>хз не придумал заголовок но пиздато сделал</h1>
-            <p>Мой смысл жизни члены члены, отныне члены члены</p>
-            <div class="hero-buttons">
-                <a href="#music" class="btn-glow"><i class="fa-solid fa-music"></i> Музыка</a>
-                <a href="#memes" class="btn-glow"><i class="fa-solid fa-face-laugh-squint"></i> Мемы</a>
-                <a href="#socials" class="btn-glow btn-secondary"><i class="fa-solid fa-share-nodes"></i> Соцсети</a>
-            </div>
-        </div>
-    </header>
+<header class="hero">
 
-    <main class="container">
-        <section id="music">
-            <h2 class="section-title">Любимая музыка</h2>
-            <div class="music-grid" id="music-container"></div>
-        </section>
+<h1>Хз все еще не придумал</h1>
 
-        <section id="clips">
-            <h2 class="section-title">Лучшие клипы</h2>
-            <div class="clips-grid" id="clips-container"></div>
-        </section>
+<p>Мой смысл жизни члены члены</p>
 
-        <section id="socials">
-            <div class="links-layout">
-                <div>
-                    <h2 class="section-title" style="text-align: left; margin-bottom: 25px;">Плейлисты</h2>
-                    <div class="playlists-box" id="playlists-container"></div>
-                </div>
-                <div>
-                    <h2 class="section-title" style="text-align: left; margin-bottom: 25px;">Контакты</h2>
-                    <div class="socials-box" id="socials-container"></div>
-                </div>
-            </div>
-        </section>
+<div class="hero-buttons">
 
-        <section id="memes">
-            <h2 class="section-title">Избранные мемы</h2>
-            <div class="meme-grid" id="memes-container"></div>
-        </section>
-    </main>
+<a href="#music">Музыка</a>
+<a href="#memes">Мемы</a>
+<a href="#socials">Соцсети</a>
 
-    <footer style="text-align: center; padding: 35px 0; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--glass-border);">
-        <p>мой смысл жизни пенис пенис</p>
-    </footer>
+</div>
 
-    <div class="modal" id="universal-modal">
-        <div class="modal-content glass-card">
-            <button class="modal-close" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
-            <div id="modal-body"></div>
-        </div>
-    </div>
+</header>
 
-    <script src="config.js"></script>
-    <script>
-        let currentAudio = new Audio();
-        let currentPlayingId = null;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if(typeof tracks !== 'undefined') renderMusic();
-            if(typeof clips !== 'undefined') renderClips();
-            if(typeof playlists !== 'undefined') renderPlaylists();
-            if(typeof socials !== 'undefined') renderSocials();
-            if(typeof memes !== 'undefined') renderMemes();
-            setupModalLogic();
+<section id="music">
 
-            currentAudio.addEventListener('ended', () => {
-                const playBtn = document.getElementById(`play-btn-${currentPlayingId}`);
-                if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-                currentPlayingId = null;
-            });
-        });
+<h2>Любимая музыка</h2>
 
-        function renderMusic() {
-            document.getElementById("music-container").innerHTML = tracks.map(t => `
-                <div class="track-card glass-card">
-                    <img src="${t.cover}" alt="${t.title}" class="track-cover" onerror="this.src='https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=100'">
-                    <div class="track-info">
-                        <div class="track-title">${t.title}</div>
-                        <div class="track-artist">${t.artist}</div>
-                        <div class="track-actions">
-                            <button id="play-btn-${t.id}" class="btn-glow" onclick="togglePlay(${t.id}, '${t.link}')"><i class="fa-solid fa-play"></i> Play</button>
-                            ${t.lyrics ? `<button class="btn-glow btn-secondary" onclick="openLyrics(${t.id})">Текст</button>` : ''}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+<div id="musicContainer" class="grid"></div>
 
-        function togglePlay(id, src) {
-            const playBtn = document.getElementById(`play-btn-${id}`);
-            
-            if (!src || src === '#') {
-                alert('Этот трек еще не загружен на хостинг.');
-                return;
-            }
+</section>
 
-            if (currentPlayingId === id) {
-                if (currentAudio.paused) {
-                    currentAudio.play();
-                    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
-                } else {
-                    currentAudio.pause();
-                    playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-                }
-                return;
-            }
 
-            if (currentPlayingId !== null) {
-                const oldPlayBtn = document.getElementById(`play-btn-${currentPlayingId}`);
-                if (oldPlayBtn) oldPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-            }
+<section>
 
-            // Кодирование URI + Кэш-бастер для стабильного запуска на GitHub Pages
-            const cleanSrc = encodeURIComponent(src.trim()).replace(/%2F/g, '/');
-            currentAudio.src = cleanSrc + '?v=' + new Date().getTime();
-            
-            currentAudio.play().then(() => {
-                currentPlayingId = id;
-                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
-            }).catch(err => {
-                console.error("Ошибка воспроизведения файла:", err);
-                alert("Не удалось воспроизвести файл. Проверь правильность имени mp3 на GitHub.");
-            });
-        }
+<h2>Лучшие клипы</h2>
 
-        function renderClips() {
-            document.getElementById("clips-container").innerHTML = clips.map(c => `
-                <a href="${c.link}" target="_blank" class="clip-card glass-card">
-                    <div class="clip-thumbnail-wrapper">
-                        <i class="fa-solid fa-play"></i>
-                        <img src="${c.thumb}" class="clip-thumbnail" onerror="this.style.display='none';">
-                    </div>
-                    <div class="clip-meta">
-                        <div class="clip-name">${c.title}</div>
-                        <div class="clip-platform"><i class="${c.icon}"></i> ${c.platform}</div>
-                    </div>
-                </a>
-            `).join('');
-        }
+<div class="grid">
 
-        function renderPlaylists() {
-            document.getElementById("playlists-container").innerHTML = playlists.map(p => `
-                <a href="${p.url}" target="_blank" class="link-item glass-card">
-                    <div class="link-left"><i class="${p.icon}"></i><span>${p.name}</span></div>
-                    <span class="btn-glow" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 8px;">Открыть</span>
-                </a>
-            `).join('');
-        }
+<a class="glass-card"
+href="https://www.twitch.tv/cherebuhh/clip/TrappedBumblingHamburgerNononoCat-rY4T5pmWOnnnVTyIh"
+target="_blank">
 
-        function renderSocials() {
-            document.getElementById("socials-container").innerHTML = socials.map(s => `
-                <a href="${s.url}" target="_blank" class="link-item glass-card">
-                    <div class="link-left"><i class="${s.icon}"></i><span>${s.name}</span></div>
-                    <span class="btn-glow btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 8px;"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-                </a>
-            `).join('');
-        }
+Лучший клип
 
-        function renderMemes() {
-            document.getElementById("memes-container").innerHTML = memes.map(m => `
-                <div class="meme-item glass-card" onclick="openMeme('${m.src}', '${m.title}')">
-                    <div class="meme-img-box"><img src="${m.src}" class="meme-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300'"></div>
-                    <div class="meme-overlay"><div class="meme-title">${m.title}</div></div>
-                </div>
-            `).join('');
-        }
+</a>
 
-        function setupModalLogic() {
-            const modal = document.getElementById("universal-modal");
-            const closeBtn = document.getElementById("modal-close-btn");
-            
-            closeBtn.addEventListener("click", () => modal.classList.remove("active"));
-            modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("active"); });
-        }
+<a class="glass-card"
+href="https://www.twitch.tv/stintik/clip/AmorphousSmellyHerringMikeHogu-zoP-UnJIkbtcwmm9"
+target="_blank">
 
-        window.openLyrics = function(id) {
-            const track = tracks.find(t => t.id === id);
-            if(!track || !track.lyrics) return;
-            
-            document.getElementById("modal-body").innerHTML = `
-                <h3 style="font-size: 1.5rem; margin-bottom: 5px;">${track.title}</h3>
-                <p style="color: var(--text-muted); margin-bottom: 25px;">${track.artist}</p>
-                <div class="lyrics-text">${track.lyrics}</div>
-            `;
-            document.getElementById("universal-modal").classList.add("active");
-        };
+Лучший клип 2
 
-        window.openMeme = function(src, title) {
-            document.getElementById("modal-body").innerHTML = `
-                <img src="${src}" class="modal-image" alt="${title}" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600'">
-                <h3 style="font-size: 1.2rem; margin-top: 15px; font-weight: 600;">${title}</h3>
-            `;
-            document.getElementById("universal-modal").classList.add("active");
-        };
-    </script>
+</a>
+
+<a class="glass-card"
+href="https://www.twitch.tv/drakeoffc/clip/MoldyAbstruseThymeBleedPurple-4cr50icl_64hNUZl"
+target="_blank">
+
+Лучший клип 3
+
+</a>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>Плейлисты</h2>
+
+<div id="playlistContainer"></div>
+
+</section>
+
+
+<section id="socials">
+
+<h2>Соцсети</h2>
+
+<div id="socialContainer"></div>
+
+</section>
+
+
+<section id="memes">
+
+<h2>Мемы</h2>
+
+<div id="memeContainer" class="grid"></div>
+
+</section>
+
+
+
+<div class="modal" id="lyricsModal">
+
+<div class="modal-content">
+
+<span id="close">&times;</span>
+
+<h3>Текст песни</h3>
+
+<p id="lyrics"></p>
+
+</div>
+
+</div>
+
+
+<div class="modal" id="imageModal">
+
+<img id="fullImage">
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
