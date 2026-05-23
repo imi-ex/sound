@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Хз все еще не придумал</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ===========================
+       CSS ПЕРЕМЕННЫЕ / ТЕМА
+    =========================== */
+    :root {
+      --bg:          #0a0812;
+      --bg2:         #0f0d1a;
+      --purple:      #7c3aed;
+      --purple-lite: #a855f7;
+      --blue:        #3b82f6;
+      --cyan:        #06b6d4;
+      --glow-p:      rgba(124, 58, 237, 0.55);
+      --glow-b:      rgba(59, 130, 246, 0.45);
+      --glass-bg:    rgba(255,255,255,0.05);
+      --glass-border:rgba(255,255,255,0.10);
+      --text:        #f1f0ff;
+      --text-muted:  #8b82a8;
+      --card-radius: 18px;
+      --transition:  0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===========================
+       СБРОС И БАЗОВЫЕ СТИЛИ
+    =========================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===========================
+       ФОН — СЕТКА + ГРАДИЕНТ
+    =========================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124,58,237,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(59,130,246,.14) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,.025) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,.025) 60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===========================
+       НАВБАР
+    =========================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(10,8,18,0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .nav-logo {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--purple-lite), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: .04em;
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--purple-lite); }
+
+    /* ===========================
+       КОНТЕНТНАЯ ОБЁРТКА
+    =========================== */
+    main { position: relative; z-index: 1; }
+    section { padding: 100px 20px 60px; max-width: 1200px; margin: 0 auto; }
+
+    /* ===========================
+       ЗАГОЛОВКИ СЕКЦИЙ
+    =========================== */
+    .section-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-title .icon { font-size: 1.4rem; }
+    .section-title span {
+      background: linear-gradient(135deg, var(--purple-lite) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===========================
+       HERO СЕКЦИЯ
+    =========================== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+    .hero-eyebrow {
+      font-size: .8rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--purple-lite);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp .6s .2s forwards;
+    }
+    .hero-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(2.2rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp .7s .4s forwards;
+    }
+    .hero-title .grad {
+      background: linear-gradient(135deg, #c084fc 0%, #7c3aed 40%, #3b82f6 70%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(.95rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp .7s .6s forwards;
+    }
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp .7s .8s forwards;
+    }
+
+    /* ===========================
+       КНОПКИ
+    =========================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-family: 'Jost', sans-serif;
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+      border: none;
+      outline: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #fff;
+      box-shadow: 0 0 24px var(--glow-p);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 0 40px var(--glow-p), 0 0 80px rgba(124,58,237,.2);
+    }
+    .btn-glass {
+      background: var(--glass-bg);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+    .btn-glass:hover {
+      background: rgba(124,58,237,.15);
+      border-color: rgba(124,58,237,.4);
+      transform: translateY(-3px);
+      box-shadow: 0 0 24px var(--glow-p);
+    }
+    .btn-sm {
+      padding: 8px 18px;
+      font-size: .8rem;
+    }
+
+    /* ===========================
+       СТЕКЛЯННАЯ КАРТОЧКА
+    =========================== */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      backdrop-filter: blur(16px);
+      transition: all var(--transition);
+    }
+    .glass-card:hover {
+      border-color: rgba(124,58,237,.35);
+      box-shadow: 0 8px 40px rgba(124,58,237,.15), 0 0 0 1px rgba(124,58,237,.12);
+      transform: translateY(-4px);
+    }
+
+    /* ===========================
+       БЛОК МУЗЫКИ
+    =========================== */
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .track-card {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .track-card.visible {
+      animation: fadeUp .55s forwards;
+    }
+    .track-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .track-cover {
+      width: 68px; height: 68px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #1e1230 0%, #2d1b69 100%);
+      border: 1px solid var(--glass-border);
+    }
+    .track-info { flex: 1; min-width: 0; }
+    .track-name {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .track-artist {
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+    /* Кастомный плеер */
+    .player-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .play-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #fff;
+      font-size: .85rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 14px var(--glow-p);
+      transition: all var(--transition);
+    }
+    .play-btn:hover { transform: scale(1.12); box-shadow: 0 0 24px var(--glow-p); }
+    .time-label {
+      font-size: .72rem;
+      color: var(--text-muted);
+      min-width: 72px;
+      text-align: right;
+    }
+    .progress-wrap {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,.1);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--purple-lite), var(--cyan));
+      width: 0%;
+      transition: width .1s linear;
+      pointer-events: none;
+    }
+    .lyrics-btn {
+      align-self: flex-start;
+    }
+    /* Анимация пульса для воспроизводимого трека */
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(124,58,237,.5); }
+      70%  { box-shadow: 0 0 0 8px rgba(124,58,237,0); }
+      100% { box-shadow: 0 0 0 0 rgba(124,58,237,0); }
+    }
+    .play-btn.playing { animation: pulse-ring 1.5s infinite; }
+
+    /* ===========================
+       БЛОК КЛИПОВ
+    =========================== */
+    .clips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .clip-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .clip-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 24px var(--glow-p);
+      transition: all var(--transition);
+    }
+    .clip-card:hover .clip-icon {
+      transform: scale(1.15);
+      box-shadow: 0 0 44px var(--glow-p);
+    }
+    .clip-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .clip-hint { font-size: .75rem; color: var(--text-muted); }
+
+    /* ===========================
+       БЛОК ПЛЕЙЛИСТОВ
+    =========================== */
+    .playlists-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .playlist-card {
+      flex: 1;
+      min-width: 220px;
+      padding: 28px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .playlist-icon {
+      font-size: 2rem;
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .playlist-icon.spotify { background: rgba(30,215,96,.15); color: #1ED760; }
+    .playlist-icon.ytm     { background: rgba(255,0,0,.12);   color: #FF0000; }
+    .playlist-info h3 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .playlist-info p { font-size: .78rem; color: var(--text-muted); }
+
+    /* ===========================
+       БЛОК СОЦСЕТЕЙ
+    =========================== */
+    .socials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .social-card {
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+    }
+    .social-icon {
+      font-size: 1.6rem;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+    .social-card:hover .social-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+    .social-name {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .social-handle { font-size: .72rem; color: var(--text-muted); }
+
+    /* ===========================
+       БЛОК МЕМОВ
+    =========================== */
+    .memes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .meme-item {
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      aspect-ratio: 1 / 1;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+    }
+    .meme-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .meme-item:hover img { transform: scale(1.07); }
+    .meme-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(10,8,18,.85) 0%, transparent 100%);
+      padding: 20px 14px 12px;
+      font-family: 'Unbounded', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+
+    /* ===========================
+       МОДАЛЬНОЕ ОКНО (тексты)
+    =========================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,8,18,.85);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-box {
+      background: #13102a;
+      border: 1px solid rgba(124,58,237,.35);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(.92);
+      transition: transform .3s;
+      box-shadow: 0 0 60px rgba(124,58,237,.25);
+    }
+    .modal-overlay.open .modal-box { transform: scale(1); }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+    .modal-close:hover { color: var(--purple-lite); }
+    .modal-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .modal-lyrics {
+      font-size: .88rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+    }
+
+    /* ===========================
+       ЛАЙТБОКС ДЛЯ МЕМОВ
+    =========================== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,8,18,.95);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 14px;
+      object-fit: contain;
+      transform: scale(.9);
+      transition: transform .3s;
+      box-shadow: 0 0 80px rgba(124,58,237,.3);
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      opacity: .7;
+      transition: opacity var(--transition);
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ===========================
+       ФУТЕР
+    =========================== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: .8rem;
+      border-top: 1px solid var(--glass-border);
+    }
+    footer span {
+      background: linear-gradient(135deg, var(--purple-lite), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===========================
+       АНИМАЦИИ
+    =========================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===========================
+       СКРОЛЛБАР
+    =========================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+    /* ===========================
+       АДАПТИВНОСТЬ
+    =========================== */
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .nav-links { display: none; }
+      section { padding: 80px 16px 40px; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .playlists-row { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .tracks-grid { grid-template-columns: 1fr; }
+      .socials-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===========================
+       РАЗДЕЛИТЕЛЬ
+    =========================== */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,58,237,.3), transparent);
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    /* Визуализатор — анимированные полосы */
+    .wave-bars {
+      display: flex;
+      gap: 3px;
+      align-items: flex-end;
+      height: 18px;
+    }
+    .wave-bar {
+      width: 3px;
+      background: linear-gradient(180deg, var(--purple-lite), var(--cyan));
+      border-radius: 2px;
+      animation: wavebar 1s ease-in-out infinite alternate;
+    }
+    .wave-bar:nth-child(1) { height: 8px;  animation-delay: 0s; }
+    .wave-bar:nth-child(2) { height: 16px; animation-delay: .15s; }
+    .wave-bar:nth-child(3) { height: 10px; animation-delay: .30s; }
+    .wave-bar:nth-child(4) { height: 16px; animation-delay: .10s; }
+    .wave-bar:nth-child(5) { height: 6px;  animation-delay: .25s; }
+    @keyframes wavebar {
+      from { transform: scaleY(.4); }
+      to   { transform: scaleY(1); }
+    }
+    .wave-bars.paused .wave-bar { animation-play-state: paused; }
+  </style>
+</head>
+<body>
+
+<!-- ===========================
+     НАВИГАЦИЯ
+=========================== -->
+<nav>
+  <div class="nav-logo">ХЗ 🎵</div>
+  <ul class="nav-links">
+    <li><a href="#music">Музыка</a></li>
+    <li><a href="#clips">Клипы</a></li>
+    <li><a href="#playlists">Плейлисты</a></li>
+    <li><a href="#socials">Соцсети</a></li>
+    <li><a href="#memes">Мемы</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ===========================
+       HERO
+  =========================== -->
+  <section id="hero">
+    <p class="hero-eyebrow">добро пожаловать в мой уголок интернета</p>
+    <h1 class="hero-title">
+      <span class="grad">Хз все еще<br>не придумал</span>
+    </h1>
+    <p class="hero-sub">Мой смысл жизни члены члены 🐟</p>
+    <div class="hero-btns">
+      <a href="#music"    class="btn btn-primary"><i class="fas fa-music"></i> Музыка</a>
+      <a href="#memes"    class="btn btn-glass"><i class="fas fa-face-laugh-squint"></i> Мемы</a>
+      <a href="#socials"  class="btn btn-glass"><i class="fas fa-share-nodes"></i> Соцсети</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===========================
+       МУЗЫКА
+  =========================== -->
+  <section id="music">
+    <h2 class="section-title">
+      <span class="icon">🎧</span>
+      <span>Любимая музыка</span>
+    </h2>
+    <div class="tracks-grid" id="tracksContainer"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===========================
+       КЛИПЫ
+  =========================== -->
+  <section id="clips">
+    <h2 class="section-title">
+      <span class="icon">🎬</span>
+      <span>Лучшие клипы</span>
+    </h2>
+    <div class="clips-grid" id="clipsContainer"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===========================
+       ПЛЕЙЛИСТЫ
+  =========================== -->
+  <section id="playlists">
+    <h2 class="section-title">
+      <span class="icon">📋</span>
+      <span>Плейлисты</span>
+    </h2>
+    <div class="playlists-row" id="playlistsContainer"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===========================
+       СОЦСЕТИ
+  =========================== -->
+  <section id="socials">
+    <h2 class="section-title">
+      <span class="icon">🌐</span>
+      <span>Соцсети</span>
+    </h2>
+    <div class="socials-grid" id="socialsContainer"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===========================
+       МЕМЫ
+  =========================== -->
+  <section id="memes">
+    <h2 class="section-title">
+      <span class="icon">😂</span>
+      <span>Мемы</span>
+    </h2>
+    <div class="memes-grid" id="memesContainer"></div>
+  </section>
+
+</main>
+
+<!-- ===========================
+     ФУТЕР
+=========================== -->
+<footer>
+  <p>Сделано с ❤️ и <span>фиолетовым свечением</span> · 2025</p>
+</footer>
+
+<!-- ===========================
+     МОДАЛКА ТЕКСТА ПЕСНИ
+=========================== -->
+<div class="modal-overlay" id="lyricsModal">
+  <div class="modal-box">
+    <button class="modal-close" id="lyricsClose"><i class="fas fa-xmark"></i></button>
+    <p class="modal-title" id="lyricsTitle"></p>
+    <pre class="modal-lyrics" id="lyricsContent"></pre>
+  </div>
+</div>
+
+<!-- ===========================
+     ЛАЙТБОКС МЕМОВ
+=========================== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose"><i class="fas fa-xmark"></i></button>
+  <img src="" id="lightboxImg" alt="meme" />
+</div>
+
+<!-- ===========================
+     ДАННЫЕ И ЛОГИКА
+=========================== -->
+<script>
+/* ============================================================
+   ДАННЫЕ — редактируй здесь
+============================================================ */
+
+// Треки. file — имя mp3-файла в той же папке что index.html
+const tracks = [
+  {
+    id: 1,
+    title:    "Бегать и падать",
+    artist:   "Куок",
+    file:     "Бегать и падать.mp3",
+    cover:    "track1.jpg",
+    lyrics:   null  // нет текста
+  },
+  {
+    id: 2,
+    title:    "Уходи",
+    artist:   "ФРИК ПАТИ, Mzlff",
+    file:     "Уходи.mp3",
+    cover:    "track2.jpg",
+    lyrics:   null
+  },
+  {
+    id: 3,
+    title:    "абсолютный ноль",
+    artist:   "Mzlff",
+    file:     "абсолютный ноль.mp3",
+    cover:    "track3.jpg",
+    lyrics:   null
+  },
+  {
+    id: 4,
+    title:    "Мечты рядовой фигуры",
+    artist:   "Mzlff",
+    file:     "Мечты рядовой фигуры.mp3",
+    cover:    "track4.jpg",
+    lyrics:   "[]"  // вставь текст сюда
+  },
+  {
+    id: 5,
+    title:    "Крематорий для бабочек",
+    artist:   "MellSher",
+    file:     "Крематорий для бабочек.mp3",
+    cover:    "track5.jpg",
+    lyrics:   null
+  },
+  {
+    id: 6,
+    title:    "МазеLOVE",
+    artist:   "Lida, dk",
+    file:     "мазеLOVE Lida, DK.mp3",
+    cover:    "track6.jpg",
+    lyrics:   null
+  }
+];
+
+// Клипы
+const clips = [
+  {
+    label: "Лучший клип",
+    url:   "https://www.twitch.tv/cherebuhh/clip/TrappedBumblingHamburgerNononoCat-rY4T5pmWOnnnVTyIh"
+  },
+  {
+    label: "Лучший клип 2",
+    url:   "https://www.twitch.tv/stintik/clip/AmorphousSmellyHerringMikeHogu-zoP-UnJIkbtcwmm9"
+  },
+  {
+    label: "Лучший клип 3",
+    url:   "https://www.twitch.tv/drakeoffc/clip/MoldyAbstruseThymeBleedPurple-4cr50icl_64hNUZl"
+  }
+];
+
+// Плейлисты
+const playlists = [
+  {
+    name:    "Spotify",
+    desc:    "Открыть плейлист",
+    url:     "https://open.spotify.com/playlist/6MNfVSspPcmuZ3nf0PvJnn?si=Kb_2X-K8SQuSeRiB1oGK0Q",
+    iconCls: "fab fa-spotify",
+    type:    "spotify"
+  },
+  {
+    name:    "YouTube Music",
+    desc:    "Открыть плейлист",
+    url:     "https://music.youtube.com/playlist?list=PLZcqoG0ALLPRFGA35WPV0IsM8mOdt2d5y",
+    iconCls: "fab fa-youtube",
+    type:    "ytm"
+  }
+];
+
+// Соцсети
+const socials = [
+  {
+    name:    "Reddit",
+    handle:  "maze110vvv",
+    url:     "https://www.reddit.com/u/maze110vvv/s/fu6MsOoXUQ",
+    iconCls: "fab fa-reddit",
+    color:   "rgba(255,69,0,.15)",
+    tcolor:  "#FF4500"
+  },
+  {
+    name:    "Reddit 2",
+    handle:  "ne_mzlff",
+    url:     "https://www.reddit.com/u/ne_mzlff/s/gQ9moeCkwP",
+    iconCls: "fab fa-reddit",
+    color:   "rgba(255,69,0,.15)",
+    tcolor:  "#FF4500"
+  },
+  {
+    name:    "Telegram",
+    handle:  "awesome_fugu",
+    url:     "https://t.me/awesome_fugu",
+    iconCls: "fab fa-telegram",
+    color:   "rgba(0,136,204,.15)",
+    tcolor:  "#0088CC"
+  },
+  {
+    name:    "TikTok",
+    handle:  "awesome_fugu",
+    url:     "https://www.tiktok.com/@awesome_fugu?_r=1&_t=ZS-96ZXudI2mZT",
+    iconCls: "fab fa-tiktok",
+    color:   "rgba(255,255,255,.08)",
+    tcolor:  "#fff"
+  },
+  {
+    name:    "YouTube",
+    handle:  "bezkonechny_nosok",
+    url:     "https://youtube.com/@bezkonechny_nosok",
+    iconCls: "fab fa-youtube",
+    color:   "rgba(255,0,0,.12)",
+    tcolor:  "#FF0000"
+  }
+];
+
+// Мемы
+const memes = [
+  { src: "meme1.jpg", caption: "Мем №1" },
+  { src: "meme2.jpg", caption: "Мем №2" },
+  { src: "meme3.jpg", caption: "Мем №3" },
+  { src: "meme4.jpg", caption: "Мем №4" },
+  { src: "meme5.jpg", caption: "Мем №5" },
+  { src: "meme6.jpg", caption: "Мем №6" }
+];
+
+/* ============================================================
+   ПЛЕЕРЫ — состояние
+============================================================ */
+let currentAudio   = null; // текущий Audio-объект
+let currentTrackId = null; // id воспроизводимого трека
+
+/* ============================================================
+   РЕНДЕР ТРЕКОВ
+============================================================ */
+function renderTracks() {
+  const container = document.getElementById("tracksContainer");
+  container.innerHTML = "";
+
+  tracks.forEach(track => {
+    // Заглушка обложки если файл не найден — красивый градиент
+    const coverFallback = `https://placehold.co/68x68/1e1230/c084fc?text=${encodeURIComponent(track.id)}`;
+
+    const card = document.createElement("div");
+    card.className = "glass-card track-card";
+    card.dataset.id = track.id;
+
+    card.innerHTML = `
+      <div class="track-top">
+        <img
+          class="track-cover"
+          src="${track.cover}"
+          alt="${track.title}"
+          onerror="this.src='${coverFallback}'"
+        />
+        <div class="track-info">
+          <div class="track-name">${track.title}</div>
+          <div class="track-artist">${track.artist}</div>
+        </div>
+      </div>
+      <div class="player-bar">
+        <div class="player-controls">
+          <button class="play-btn" id="play-${track.id}" onclick="togglePlay(${track.id})">
+            <i class="fas fa-play" id="play-icon-${track.id}"></i>
+          </button>
+          <div class="progress-wrap" id="prog-wrap-${track.id}" onclick="seekTrack(event, ${track.id})">
+            <div class="progress-fill" id="prog-fill-${track.id}"></div>
+          </div>
+          <span class="time-label" id="time-${track.id}">0:00 / 0:00</span>
+          <div class="wave-bars paused" id="wave-${track.id}">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+        ${track.lyrics !== null ? `
+        <button
+          class="btn btn-glass btn-sm lyrics-btn"
+          onclick="openLyrics(${track.id})"
+        >
+          <i class="fas fa-align-left"></i> Показать текст
+        </button>` : ""}
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+
+  // Запуск Intersection Observer для анимации появления карточек
+  observeCards(".track-card");
+}
+
+/* ============================================================
+   PLAY / PAUSE
+============================================================ */
+function togglePlay(id) {
+  const track    = tracks.find(t => t.id === id);
+  const playBtn  = document.getElementById(`play-${id}`);
+  const playIcon = document.getElementById(`play-icon-${id}`);
+  const wave     = document.getElementById(`wave-${id}`);
+
+  // Если нажали на другой трек — остановить текущий
+  if (currentTrackId !== null && currentTrackId !== id) {
+    stopTrack(currentTrackId);
+  }
+
+  // Создать новый Audio если нет или поменялся трек
+  if (currentTrackId !== id) {
+    currentAudio   = new Audio(track.file);
+    currentTrackId = id;
+
+    // Обновляем прогресс-бар и время
+    currentAudio.addEventListener("timeupdate", () => updateProgress(id));
+    currentAudio.addEventListener("ended", () => stopTrack(id));
+  }
+
+  if (currentAudio.paused) {
+    currentAudio.play().catch(() => {
+      // Браузер заблокировал autoplay — показываем сообщение
+      alert("Нажми ещё раз — браузер требует жест для воспроизведения.");
+    });
+    playIcon.className = "fas fa-pause";
+    playBtn.classList.add("playing");
+    wave.classList.remove("paused");
+  } else {
+    currentAudio.pause();
+    playIcon.className = "fas fa-play";
+    playBtn.classList.remove("playing");
+    wave.classList.add("paused");
+  }
+}
+
+/* Полная остановка трека */
+function stopTrack(id) {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  const playIcon = document.getElementById(`play-icon-${id}`);
+  const playBtn  = document.getElementById(`play-${id}`);
+  const wave     = document.getElementById(`wave-${id}`);
+  const fill     = document.getElementById(`prog-fill-${id}`);
+  const timeEl   = document.getElementById(`time-${id}`);
+  if (playIcon) playIcon.className = "fas fa-play";
+  if (playBtn)  playBtn.classList.remove("playing");
+  if (wave)     wave.classList.add("paused");
+  if (fill)     fill.style.width = "0%";
+  if (timeEl)   timeEl.textContent = "0:00 / 0:00";
+}
+
+/* Обновить прогресс-бар */
+function updateProgress(id) {
+  if (!currentAudio) return;
+  const fill   = document.getElementById(`prog-fill-${id}`);
+  const timeEl = document.getElementById(`time-${id}`);
+  const pct    = (currentAudio.currentTime / currentAudio.duration) * 100 || 0;
+  if (fill) fill.style.width = pct + "%";
+  if (timeEl) timeEl.textContent = `${fmt(currentAudio.currentTime)} / ${fmt(currentAudio.duration)}`;
+}
+
+/* Перемотка по клику на прогресс-бар */
+function seekTrack(e, id) {
+  if (currentTrackId !== id || !currentAudio) return;
+  const wrap = document.getElementById(`prog-wrap-${id}`);
+  const rect = wrap.getBoundingClientRect();
+  const ratio = (e.clientX - rect.left) / rect.width;
+  currentAudio.currentTime = ratio * currentAudio.duration;
+}
+
+/* Форматирование времени */
+function fmt(sec) {
+  if (!sec || isNaN(sec)) return "0:00";
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+/* ============================================================
+   РЕНДЕР КЛИПОВ
+============================================================ */
+function renderClips() {
+  const container = document.getElementById("clipsContainer");
+  clips.forEach(clip => {
+    const a = document.createElement("a");
+    a.className    = "glass-card clip-card";
+    a.href         = clip.url;
+    a.target       = "_blank";
+    a.rel          = "noopener noreferrer";
+    a.innerHTML = `
+      <div class="clip-icon"><i class="fas fa-clapperboard"></i></div>
+      <div class="clip-title">${clip.label}</div>
+      <div class="clip-hint">Открыть на Twitch <i class="fas fa-arrow-up-right-from-square" style="font-size:.7rem"></i></div>
+    `;
+    container.appendChild(a);
+  });
+}
+
+/* ============================================================
+   РЕНДЕР ПЛЕЙЛИСТОВ
+============================================================ */
+function renderPlaylists() {
+  const container = document.getElementById("playlistsContainer");
+  playlists.forEach(pl => {
+    const a = document.createElement("a");
+    a.className = "glass-card playlist-card";
+    a.href      = pl.url;
+    a.target    = "_blank";
+    a.rel       = "noopener noreferrer";
+    a.innerHTML = `
+      <div class="playlist-icon ${pl.type}">
+        <i class="${pl.iconCls}"></i>
+      </div>
+      <div class="playlist-info">
+        <h3>${pl.name}</h3>
+        <p>${pl.desc}</p>
+      </div>
+      <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text-muted)"></i>
+    `;
+    container.appendChild(a);
+  });
+}
+
+/* ============================================================
+   РЕНДЕР СОЦСЕТЕЙ
+============================================================ */
+function renderSocials() {
+  const container = document.getElementById("socialsContainer");
+  socials.forEach(soc => {
+    const a = document.createElement("a");
+    a.className = "glass-card social-card";
+    a.href      = soc.url;
+    a.target    = "_blank";
+    a.rel       = "noopener noreferrer";
+    a.innerHTML = `
+      <div class="social-icon" style="background:${soc.color};color:${soc.tcolor}">
+        <i class="${soc.iconCls}"></i>
+      </div>
+      <div class="social-name">${soc.name}</div>
+      <div class="social-handle">@${soc.handle}</div>
+    `;
+    container.appendChild(a);
+  });
+}
+
+/* ============================================================
+   РЕНДЕР МЕМОВ
+============================================================ */
+function renderMemes() {
+  const container = document.getElementById("memesContainer");
+  memes.forEach((meme, i) => {
+    const div = document.createElement("div");
+    div.className = "meme-item";
+    div.innerHTML = `
+      <img
+        src="${meme.src}"
+        alt="${meme.caption}"
+        onerror="this.src='https://placehold.co/400x400/13102a/7c3aed?text=Мем+${i+1}'"
+        loading="lazy"
+      />
+      <div class="meme-caption">${meme.caption}</div>
+    `;
+    div.addEventListener("click", () => openLightbox(meme.src, i));
+    container.appendChild(div);
+  });
+}
+
+/* ============================================================
+   МОДАЛКА ТЕКСТОВ
+============================================================ */
+function openLyrics(id) {
+  const track   = tracks.find(t => t.id === id);
+  const modal   = document.getElementById("lyricsModal");
+  const title   = document.getElementById("lyricsTitle");
+  const content = document.getElementById("lyricsContent");
+  title.textContent   = `${track.title} — ${track.artist}`;
+  content.textContent = track.lyrics || "Текст ещё не добавлен...";
+  modal.classList.add("open");
+}
+document.getElementById("lyricsClose").addEventListener("click", () => {
+  document.getElementById("lyricsModal").classList.remove("open");
+});
+document.getElementById("lyricsModal").addEventListener("click", e => {
+  if (e.target === e.currentTarget)
+    e.currentTarget.classList.remove("open");
+});
+
+/* ============================================================
+   ЛАЙТБОКС МЕМОВ
+============================================================ */
+function openLightbox(src, i) {
+  const lb  = document.getElementById("lightbox");
+  const img = document.getElementById("lightboxImg");
+  img.src = src;
+  img.onerror = () => { img.src = `https://placehold.co/600x600/13102a/7c3aed?text=Мем+${i+1}`; };
+  lb.classList.add("open");
+}
+document.getElementById("lightboxClose").addEventListener("click", () => {
+  document.getElementById("lightbox").classList.remove("open");
+});
+document.getElementById("lightbox").addEventListener("click", e => {
+  if (e.target === e.currentTarget)
+    e.currentTarget.classList.remove("open");
+});
+// Закрытие на Escape
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    document.getElementById("lightbox").classList.remove("open");
+    document.getElementById("lyricsModal").classList.remove("open");
+  }
+});
+
+/* ============================================================
+   INTERSECTION OBSERVER — анимация появления карточек
+============================================================ */
+function observeCards(selector) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // небольшая задержка для каждой карточки
+        setTimeout(() => {
+          entry.target.classList.add("visible");
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(selector).forEach(el => observer.observe(el));
+}
+
+/* ============================================================
+   ИНИЦИАЛИЗАЦИЯ
+============================================================ */
+renderTracks();
+renderClips();
+renderPlaylists();
+renderSocials();
+renderMemes();
+</script>
+</body>
+</html>
